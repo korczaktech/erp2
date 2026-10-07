@@ -3,7 +3,7 @@ import type { NextFunction, Request, Response } from 'express';
 import { MongoServerError } from 'mongodb';
 import { ZodError, z } from 'zod';
 
-export type ApiErrorCode = 'VALIDATION_ERROR' | 'UNAUTHORIZED' | 'FORBIDDEN' | 'NOT_FOUND' | 'CONFLICT' | 'INTERNAL_ERROR';
+export type ApiErrorCode = 'VALIDATION_ERROR' | 'UNAUTHORIZED' | 'FORBIDDEN' | 'NOT_FOUND' | 'CONFLICT' | 'INTERNAL_ERROR' | 'ADDRESS_LIMIT' | 'ADDRESS_DUPLICATE';
 export type Pagination = { limit: number; offset: number };
 
 export const paginationSchema = z.object({
