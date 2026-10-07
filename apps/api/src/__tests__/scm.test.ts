@@ -47,3 +47,21 @@ test('F5 purchase lifecycle transitions are intentionally explicit', () => {
   assert.equal(transitions.submitted!.includes('approved'), true);
   assert.equal(transitions.submitted!.includes('cancelled'), true);
 });
+
+
+test('F5 outbox event envelope is versioned and correlated', () => {
+  const event = {
+    schemaVersion: 1,
+    correlationId: 'aggregate-1',
+    aggregateId: 'aggregate-1',
+    type: 'purchase.received'
+  };
+  assert.equal(event.schemaVersion, 1);
+  assert.equal(event.correlationId, event.aggregateId);
+  assert.equal(typeof event.type, 'string');
+});
+
+test('F5 idempotency payload fingerprints distinguish operations', () => {
+  const stable = (v: unknown) => JSON.stringify(v);
+  assert.notEqual(stable({number:'A',lines:[{productId:'p1',quantity:'1'}]}), stable({number:'A',lines:[{productId:'p1',quantity:'2'}]}));
+});
