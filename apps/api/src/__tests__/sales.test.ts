@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Decimal128 } from 'mongodb';
 import { hasPermission } from '../core/types.js';
+import { salesLineProductsAreUnique } from '../modules/sales/routes.js';
 
 test('F4 RBAC: sales read/write matrix', () => {
   assert.equal(hasPermission('owner','sales:write'), true);
@@ -17,4 +18,10 @@ test('F4 monetary representation uses Decimal128', () => {
 });
 test('F4 quantity preserves six decimal places', () => {
   assert.equal(Decimal128.fromString('12.345678').toString(),'12.345678');
+});
+
+
+test('F4 rejects duplicate products inside one order', () => {
+  assert.equal(salesLineProductsAreUnique([{ productId: 'p1' }, { productId: 'p2' }]), true);
+  assert.equal(salesLineProductsAreUnique([{ productId: 'p1' }, { productId: 'p1' }]), false);
 });
