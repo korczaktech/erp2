@@ -33,7 +33,7 @@ await client.connect();
 
 try {
   const db = client.db(process.env.MONGODB_DB?.trim() || undefined);
-  const parties = db.collection('parties');
+  const parties = db.collection<any>('parties');
   const addresses = db.collection<Address>('addresses');
 
   const count = await addresses.countDocuments();
