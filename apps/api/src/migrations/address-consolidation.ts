@@ -75,7 +75,7 @@ try {
       const party = await parties.findOne({ _id: partyId });
       const existing = Array.isArray(party?.addresses) ? party.addresses : [];
       const pending = incoming.filter(x => !x._id || !existing.some((y: Address) => y._id && x._id && String(y._id) === String(x._id)));
-      if (pending.length) await parties.updateOne({ _id: partyId }, { $push: { addresses: { $each: pending } }, $set: { updatedAt: new Date() } });
+      if (pending.length) await parties.updateOne({ _id: partyId }, { $push: { addresses: { $each: pending } }, $set: { updatedAt: new Date() } } as any);
     }
 
     await addresses.drop();
